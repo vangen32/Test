@@ -1,13 +1,19 @@
-import * as Classes from "./repository.js"
-describe('Repository', () => {
-    it('should do something', () => {
-        expect.assertions(2);
-        
-        let Sashko = new Classes.Sanya();
-        let a = Sashko.shlunok.length;
-        Sashko.eat("Saverma");
+import {Loader} from "./loader.js"
 
-        expect(Sashko.shlunok.length === a+1).toBe(true);
-        expect(Sashko.shlunok[0]).toBe("Saverma");
+const DEMO = [1,1,1,1,1,1,1,1];
+
+global.fetch = jest.fn(()=> {
+    return Promise.resolve({
+        json:()=>{
+            return Promise.resolve(DEMO)}
+        })
+    });
+
+describe('Count todos', () => {
+    it('should return count', async () => {
+        const loader = new Loader()
+        const result = await loader.getData();
+        const EXPECTED_RESULE = DEMO.length;
+        expect(result).toBe(EXPECTED_RESULE);
     });
 });
